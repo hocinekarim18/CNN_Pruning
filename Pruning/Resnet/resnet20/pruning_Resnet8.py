@@ -231,7 +231,7 @@ class Pruning:
                 
                 with tf.GradientTape() as tape:
                     # Forward pass
-                    predictions = self.model(x)
+                    predictions = self.model(x, training=True)
                     # calcul de la loss
                     loss = self.loss_fn(y, predictions)
                     
@@ -301,7 +301,7 @@ class Pruning:
 # ## Training Network
 
 
-for p in [ 0.7, 0.8, 0.9]:
+for p in [0.5, 0.6, 0.7, 0.8, 0.9]:
     accuracy = np.array([])
     val_accuracy = np.array([])
 
@@ -350,10 +350,10 @@ for p in [ 0.7, 0.8, 0.9]:
     dico[f"nb_params_p_factor_{p}"] = count_parameters(P.model)
     
     # sauvegarder les poids
-    P.model.save_weights(f"w_Resnet8_p_{p}.h5")
+    P.model.save_weights(f"w_Resnet20_p_{p}.h5")
     
     # Sauvegarder les données du dictionnaire
-    np.save("summary.npy", dico)
+    np.save("summary_resnet20.npy", dico)
         
 
 
@@ -427,6 +427,6 @@ def eval_plot(dic, figname, scratch = False):
     plt.show()
 
 
-figname= f"test_seed10.png"
+figname= f"resnet20.png"
 eval_plot(dico, figname, scratch = True)
 
